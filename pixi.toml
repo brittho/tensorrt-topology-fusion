@@ -1,0 +1,12 @@
+[workspace]
+authors = ["Britt Ho <combrittho@gmail.com>"]
+channels = ["conda-forge"]
+name = "tensorrt-topology-fusion"
+platforms = ["linux-aarch64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+numpy = ">=2.5.3,<3"
+onnx = ">=1.23.2,<2"
