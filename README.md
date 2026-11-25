@@ -4,7 +4,8 @@ Investigating how neural-network topology (graph outputs) affects TensorRT opera
 On a Jetson Orin Nano with TensorRT 10.3.0, exposing the pre-ReLU convolution result as a second ONNX graph output changed execution from one fused Conv–ReLU kernel to a convolution kernel followed by a standalone pointwise ReLU kernel. With per-query host–device copies disabled, median GPU compute time rose from **42.24 µs to 54.14 µs**, an increase of **11.90 µs (+28.18%)** in the measured pair. The Nsight Systems trace confirmed the extra kernel launch and recorded no device-to-device memcpy operations in the exposed plan.
 
 ## Experiment design
-**RQ:** How does exposing intermediate observable (i.e. pre-ReLU convolution tensor as an additional ONNX graph output) affect Conv-ReLU fusion, CUDA kernel launches, and measured inference performance on TensorRT 10.3.0 running on a Jetson Orin Nano with and without per-query H2D copies?
+
+**RQ:** How does exposing intermediate observable (i.e. pre-ReLU convolution tensor as an additional ONNX graph output) affect Conv-ReLU fusion, CUDA kernel launches, and measured inference performance on TensorRT 10.3.0 running on a Jetson Orin Nano with and without per-query H2D/D2H copies?
 
 <img width="75%" alt="image" src="https://github.com/user-attachments/assets/a5779461-13ab-40eb-811a-26818275bd2e" />
 
