@@ -5,6 +5,8 @@ On a Jetson Orin Nano with TensorRT 10.3.0, exposing the pre-ReLU convolution re
 
 ## Experiment design
 
+<img width="75%" alt="image" src="https://github.com/user-attachments/assets/a5779461-13ab-40eb-811a-26818275bd2e" />
+
 Both ONNX graphs express a 3 × 3 convolution with bias followed by ReLU. Both accept a batch-one FP32 tensor of shape `1 × 16 × 64 × 64`. Each output is `1 × 32 × 64 × 64` in linear FP32, or 512 KiB.
 
 | Variant | Graph outputs | Observable intermediate |
