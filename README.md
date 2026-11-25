@@ -5,7 +5,7 @@ On a Jetson Orin Nano with TensorRT 10.3.0, exposing the pre-ReLU convolution re
 
 ## Experiment design
 
-**RQ:** How does exposing intermediate observable (i.e. pre-ReLU convolution tensor as an additional ONNX graph output) affect Conv-ReLU fusion, CUDA kernel launches, and measured inference performance on TensorRT 10.3.0 running on a Jetson Orin Nano with and without per-query H2D/D2H copies?
+**RQ:** How does exposing an intermediate tensor (in this case, the pre-ReLU convolution tensor) as an additional ONNX graph output affect Conv-ReLU fusion, CUDA kernel launches, and measured inference performance on TensorRT 10.3.0 running on a Jetson Orin Nano with and without per-query H2D/D2H copies?
 
 <img width="75%" alt="image" src="https://github.com/user-attachments/assets/a5779461-13ab-40eb-811a-26818275bd2e" />
 
