@@ -4,6 +4,7 @@ Investigating how neural-network topology (graph outputs) affects TensorRT opera
 On a Jetson Orin Nano with TensorRT 10.3.0, exposing the pre-ReLU convolution result as a second ONNX graph output changed execution from one fused Conv–ReLU kernel to a convolution kernel followed by a standalone pointwise ReLU kernel. With per-query host–device copies disabled, median GPU compute time rose from **42.24 µs to 54.14 µs**, an increase of **11.90 µs (+28.18%)** in the measured pair. The Nsight Systems trace confirmed the extra kernel launch and recorded no device-to-device memcpy operations in the exposed plan.
 
 ## Experiment design
+**RQ:** How does exposing intermediate observable (i.e. pre-ReLU convolution tensor as an additional ONNX graph output) affect Conv-ReLU fusion, CUDA kernel launches, and measured inference performance on TensorRT 10.3.0 running on a Jetson Orin Nano with and without per-query H2D copies?
 
 <img width="75%" alt="image" src="https://github.com/user-attachments/assets/a5779461-13ab-40eb-811a-26818275bd2e" />
 
@@ -13,8 +14,6 @@ Both ONNX graphs express a 3 × 3 convolution with bias followed by ReLU. Both a
 | --- | --- | --- |
 | Baseline | `relu_out` | The convolution result is internal. |
 | Exposed output | `conv_out`, `relu_out` | The caller can read the convolution result before ReLU. |
-
-The experiment asks whether making that intermediate observable changes fusion, which CUDA work runs, and how timing changes with and without the benchmark's per-query host–device copies.
 
 **Environment.** NVIDIA Jetson Orin Nano (Ampere, compute capability 8.7), TensorRT 10.3.0 (`trtexec` v100300), and Nsight Systems 2024.5.4. Both `trtexec` benchmark conditions used one inference stream, CUDA Graph disabled, a 200 ms warm-up, and a roughly 3-second timing window. The logs show that `trtexec` generated input values during setup. The exact contents were not recorded, and numerical agreement of `relu_out` was not measured.
 
