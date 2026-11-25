@@ -92,15 +92,16 @@ The exposed capture's `cuda_gpu_mem_time_sum` reported one H2D memcpy (12.800 µ
 
 ## Reproduce the measurements
 
-Generate or obtain the two ONNX inputs described above. The build commands below assume `baseline.onnx` and `exposed.onnx` are at the repo root. Adjust their paths to match your generator. Run on the target Jetson with TensorRT and Nsight Systems installed.
+From the repository root on the Jetson, use Pixi to run `make_models.py`. The script generates `models/baseline.onnx` and `models/exposed.onnx`. Then use TensorRT’s trtexec to build and benchmark both engines.
 
 ```bash
 set -e
+pixi run python make_models.py
 mkdir -p results
 trtexec=/usr/src/tensorrt/bin/trtexec
 
 for plan in baseline exposed; do
-  "$trtexec" --onnx="${plan}.onnx" \
+  "$trtexec" --onnx="models/${plan}.onnx" \
     --saveEngine="results/${plan}.plan" \
     --profilingVerbosity=detailed --skipInference \
     > "results/${plan}_build.log" 2>&1
